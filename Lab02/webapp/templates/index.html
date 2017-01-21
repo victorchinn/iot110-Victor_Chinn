@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>UW IoT Lab2</title>
+</head>
+
+<body>
+
+  <h2>UW IoT | Lab 2: GPIO API and WebApp</h2>
+  <h3>Switch: {{'On' if switch else 'Off'}}</h3>
+  <h4>RED LED (on GPIO18): {{'ON' if led1 else 'OFF'}}</h4>
+  <h4>GREEN LED (on GPIO13): {{'ON' if led2 else 'OFF'}}</h4>
+  <h4>BLUE LED (on GPIO23): {{'ON' if led3 else 'OFF'}}</h4>
+  <!-- ... our HTML goes here!! -->
+  <p>
+    <button style="width:100px; height:50px; color:white; background:red" type='button' id='red_led_btn'>RED LED</button><br><br>
+
+    <button style="width:100px; height:50px; color:white; background:green" type='button' id='grn_led_btn'>GREEN LED</button><br><br>
+    <button style="width:100px; height:50px; color:white; background:blue" type='button' id='blu_led_btn'>BLUE LED</button><br><br>
+  </p>
+
+
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+  <script>
+  //  <!-- ... our custom JS jQuery scripting goes here!! -->
+  // start executing only after document has loaded
+  $(document).ready(function() {
+    // establish global variables for LED status
+    var led1;
+    var led2;
+    var led3;
+
+      function firstFunction() {
+  var d = $.Deferred();
+  // some very time consuming asynchronous code...
+  setTimeout(function() {
+    console.log('1');
+    d.resolve();
+  }, 1000);
+  return d.promise();
+}
+
+function thirdFunction() {
+  var d = $.Deferred();
+  setTimeout(function() {
+    console.log('3');
+    d.resolve();
+  }, 1000);
+  return d.promise();
+}
+
+function secondFunction() {
+  var d = $.Deferred();
+  setTimeout(function() {
+    console.log('2');
+    d.resolve();
+  }, 1000);
+  return d.promise();
+}
+
+function fourthFunction() {
+  var d = $.Deferred();
+  // last function, not executed until the other 3 are done.
+  setTimeout(function() {
+    console.log('4');
+    d.resolve();
+  }, 1000);
+  return d.promise();
+}
+
+      
+      
+// sequence through the synchronous functions using '.then'
+firstFunction().then(thirdFunction).then(secondFunction).then(fourthFunction);
+    
+// Let's read the current LED state
+function initial_conditions() {
+  var d = $.Deferred();
+
+  setTimeout(function() {
+    $.get('/leds/1',function(data){
+      led1 = $.trim(data.split(':')[1]);
+    });
+
+    $.get('/leds/2',function(data){
+      led2 = $.trim(data.split(':')[1]);
+    });
+
+    $.get('/leds/3',function(data){
+      led3 = $.trim(data.split(':')[1]);
+    });
+
+    // console.log("Got my data now!");
+    d.resolve();
+  }, 1);
+  return d.done();
+}
+
+// Let's initialize our LED vars to the current LED state "ON"/"OFF"
+function led_status() {
+  var d = $.Deferred();
+
+  setTimeout(function() {
+    if (led1 === '0') {led1 =  "OFF"} else {led1 =  "ON"}
+    if (led2 === '0') {led2 =  "OFF"} else {led2 =  "ON"}
+    if (led3 === '0') {led3 =  "OFF"} else {led3 =  "ON"}
+    d.resolve();
+
+    console.log("RED:",led1);
+    console.log("GRN:",led2);
+    console.log("BLU:",led3);
+  }, 200);
+  return d.promise();
+}
+
+// make sure to intialize synchronously (10ms back to back)
+initial_conditions().then(led_status);
+      
+      
+      
+    // The button click functions run asynchronously in the browser
+    $('#red_led_btn').click(function() {
+      if (led1 === "OFF") {led1 = "ON";} else {led1 = "OFF";}
+      var params = 'led=1&state='+led1;
+      console.log('Led Command with params:' + params);
+      $.post('/ledcmd', params, function(data, status){
+              console.log("Data: " + data + "\nStatus: " + status);
+      });
+    });
+
+    // The button click functions run asynchronously in the browser
+    $('#grn_led_btn').click(function() {
+      if (led2 === "OFF") {led2 = "ON";} else {led2 = "OFF";}
+      var params = 'led=2&state='+led2;
+      console.log('Led Command with params:' + params);
+      $.post('/ledcmd', params, function(data, status){
+              console.log("Data: " + data + "\nStatus: " + status);
+      });
+    });
+
+      
+    // The button click functions run asynchronously in the browser
+    $('#blu_led_btn').click(function() {
+      if (led3 === "OFF") {led3 = "ON";} else {led3 = "OFF";}
+      var params = 'led=3&state='+led3;
+      console.log('Led Command with params:' + params);
+      $.post('/ledcmd', params, function(data, status){
+              console.log("Data: " + data + "\nStatus: " + status);
+      });
+    });
+
+    // code the green and blue buttons the same
+  });
+  </script>
+
+</body>
+
+</html>
