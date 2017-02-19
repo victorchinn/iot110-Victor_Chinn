@@ -1,0 +1,131 @@
+<html>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>UW IoT Lab5</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/morris.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/jquery-ui.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/lab5.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/lab5.css') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',filename='icon/favicon.ico') }}">
+
+  <script src="{{ url_for('static',filename='js/jquery-3.1.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/raphael.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/morris.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/jquery-ui.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/lab5.js') }}"></script>
+  <script>
+    $( function() {
+      $("#tabs").tabs();
+    } );
+  </script>
+</head>
+
+
+<body>
+  <div class="panel container">
+    <div class="container well well-sm">
+      <h4 id='title'>UW IoT | Lab 5 Server Sent Events Sensor Dashboard</h4>
+    </div>
+
+    <div class="container well">
+      <!-- Dashboard Row-->
+      <table id="con">
+        <tr>
+          <td id="params-cell">
+            <div id="tabs">
+              <ul>
+                <li><a href="#tabs-table-data">Table Data</a></li>
+                <li><a href="#tabs-temp">Temperature Chart</a></li>
+                <li><a href="#tabs-press">Pressure Chart</a></li>
+              </ul>
+              <div id="tabs-table-data">
+                <table class="table table-hover table-striped">
+                  <tr class=param-header>
+                    <th>Time (PST)</th>
+                    <th>&degC | &degF</th>
+                    <th>mbar | inHg</th>
+                  </tr>
+                  <tr class=param-row>
+                  </tr>
+                  <tr class=param-row>
+                  </tr>
+                  <tr class=param-row>
+                  </tr>
+                </table>
+              </div>
+              <div id="tabs-temp">
+                <div id="mytempchart" style="height: 70%; width: 95%;"></div>
+              </div>
+              <div id="tabs-press">
+                <div id="mytempchart" style="height: 70%; width: 95%;"></div>
+              </div>
+            </div>
+
+
+            <!-- <div id="myfirstchart" style="height: 172px;"></div> -->
+            <!-- </div> -->
+          </td>
+          <!-- ==================== BMP280 Sensor Values ===================== -->
+          <!-- GPIO Column -->
+          <td id="gpio-cell">
+            <!-- <div class="col-md-3 gpio"> -->
+            <!-- ======================= Switch Sensor ======================= -->
+            <div class="row">
+              <div class="col-sm-5" id="switch_text">
+                Switch</div>
+              <div class="col-sm-4" id="switch_label">
+                <h4><span id="switch" class="label label-default">&#9759</span></h4>
+              </div>
+            </div>
+            <!-- ======================= Switch Sensor ======================= -->
+
+            <!-- ============================ LEDS =========================== -->
+            <!-- LED: RED -->
+            <div class="row">
+              <div class="col-sm-5 led_button">
+                <button type='button' id="red_led_btn" class="btn btn-md btn-default">Tog</button>
+              </div>
+              <div class="col-sm-2 led_label">
+                <h4><span id="red_led_label" class="label label-default">&#9728</span></span></h4>
+              </div>
+            </div>
+            <!-- LED: GREEN -->
+            <div class="row">
+              <div class="col-sm-5 led_button">
+                <button type='button' id="grn_led_btn" class="btn btn-md btn-default">Tog</button>
+              </div>
+              <div class="col-sm-4 led_label">
+                <h4><span id="grn_led_label" class="label label-default">&#9728</span></h4>
+              </div>
+            </div>
+            <!-- LED: BLUE -->
+            <div class="row">
+              <div class="col-sm-5 led_button">
+                <button type='button' id="blu_led_btn" class="btn btn-md btn-default">Tog</button>
+              </div>
+              <div class="col-sm-4 led_label">
+                <h4><span id="blu_led_label" class="label label-default">&#9728</span></h4>
+              </div>
+            </div>
+            <!-- </div> -->
+          </td>
+          <!-- ============================ LEDS =========================== -->
+        </tr>
+      </table>
+    </div>
+    <!-- </div>
+    </div> -->
+  </div>
+
+  <script type="text/javascript">
+    var iotSource = new EventSource("{{ url_for('myData') }}");
+    // intercept the incoming states from SSE
+  </script>
+</body>
+
+</html>
