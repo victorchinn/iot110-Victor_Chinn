@@ -1,0 +1,85 @@
+<html>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>UW IoT Lab3</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/lab3.css') }}">
+  <script src="{{ url_for('static',filename='js/jquery-3.1.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/lab3.js') }}"></script>
+</head>
+
+<body>
+  <div class="container panel">
+    <div class="container well well-sm">
+      <h3 id='title'>Lab 3 GPIO Server Sent Events</h3>
+    </div>
+
+    <div class="container well">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3">
+          <h4 class="gpio">Switch</h4>
+        </div>
+        <div class="col-sm-3 switch">
+          <h4><span id="switch" class="label label-default">&#9759</span></h4>
+        </div>
+        <div class="col-sm-2">
+          <h4 class="gpio">[GPIO27]</h4></div>
+        <div class="col-sm-2"></div>
+      </div>
+
+      <!-- LED: RED -->
+      <div class="row">
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-3 led_button">
+          <button type='button' id="red_led_btn" class="btn btn-md btn-default">Toggle LED</button>
+        </div>
+        <div class="col-sm-3 led_label">
+          <h4><span id="red_led_label" class="label label-default">&#9728</span></span></h4>
+        </div>
+        <div class="col-sm-2">
+          <h4 class="gpio">[GPIO18]</h4></div>
+        <div class="col-sm-2"></div>
+      </div>
+      <!-- LED: GREEN -->
+      <div class="row">
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-3 led_button">
+          <button type='button' id="grn_led_btn" class="btn btn-md btn-default">Toggle LED</button>
+        </div>
+        <div class="col-sm-3 led_label">
+          <h4><span id="grn_led_label" class="label label-default">&#9728</span></h4>
+        </div>
+        <div class="col-sm-2">
+          <h4 class="gpio">[GPIO13]</h4></div>
+        <div class="col-sm-2"></div>
+      </div>
+      <!-- LED: BLUE -->
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3 led_button">
+          <button type='button' id="blu_led_btn" class="btn btn-md btn-default">Toggle LED</button>
+        </div>
+        <div class="col-sm-3 led_label">
+          <h4><span id="blu_led_label" class="label label-default">&#9728</span></h4>
+        </div>
+        <div class="col-sm-2">
+          <h4 class="gpio">[GPIO23]</h4></div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var iotSource = new EventSource("{{ url_for('myData') }}");
+    // intercept the incoming states from SSE
+  </script>
+
+</body>
+
+</html>

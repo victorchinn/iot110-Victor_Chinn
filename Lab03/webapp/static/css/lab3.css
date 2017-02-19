@@ -1,0 +1,34 @@
+body {
+  background-color: rgb(51, 0, 111);
+  width: 800px;
+  margin:5px auto;
+}
+
+span.label  {
+    font-size: 1.3em;
+}
+
+.btn {
+  font-size: 1.2em;
+}
+
+button {
+  margin: 5 auto;
+}
+
+h4.gpio {
+  margin:13 auto;
+}
+.well {
+  width: 100%;
+}
+
+.well-sm {
+  margin: 10px auto;
+}
+
+.panel {
+  background-color: darkgray;
+  width: 75%;
+  text-align: center;
+}
