@@ -2,9 +2,11 @@
 import time
 from sense import PiSenseHat
 from flask import *
+from sense_hat import SenseHat
 
 # create Pi SenseHat Object
 pi_sense_hat = PiSenseHat()
+message_sense_hat = SenseHat()
 
 # ============================== Functions ====================================
 def get_sensor_values():
@@ -29,6 +31,11 @@ def myData():
             data_obj = get_sensor_values()
             yield('data: {0}\n\n'.format(data_obj))
             time.sleep(1.0)
+            t = message_sense_hat.get_temperature()
+            p = message_sense_hat.get_pressure()
+            h = message_sense_hat.get_humidity()
+            msg = "Temp = {0}, Pressure = {1}, Humidity = {2}".format(t,p,h)
+            message_sense_hat.show_message(msg, scroll_speed=0.04)
     return Response(get_values(), mimetype='text/event-stream')
 # ============================== API Routes ===================================
 
