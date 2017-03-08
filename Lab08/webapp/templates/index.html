@@ -1,0 +1,111 @@
+<html>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>UW IoT Lab6</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/morris.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/jquery-ui.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/lab6.css') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',filename='icon/favicon.ico') }}">
+
+  <script src="{{ url_for('static',filename='js/jquery-3.1.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/raphael.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/morris.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/jquery-ui.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/lab6.js') }}"></script>
+  <script>
+    $( function() {
+      $("#tabs").tabs();
+    } );
+  </script>
+</head>
+
+
+<body>
+  <div class="panel container">
+    <div class="container well well-sm">
+      <h4 id='title'>UW IoT | Lab 6 Server Sent Events SenseHat Dashboard</h4>
+    </div>
+
+    <div class="container well">
+      <!-- Dashboard Row-->
+      <table id="con">
+        <tr>
+          <td id="params-cell">
+            <div id="tabs">
+              <ul>
+                <li><a href="#tabs-environmental-data">EnvironTable</a></li>
+                <li><a href="#tabs-environmental-chart">EnvironChart</a></li>
+                <li><a href="#tabs-inertial-data">InertialTable</a></li>
+                <li><a href="#tabs-inertial-chart">InertialChart</a></li>
+                <li><a href="#tabs-joystick-data">JoyStick</a></li>
+                <li><a href="#tabs-led-display">Display</a></li>
+              </ul>
+              <div id="tabs-environmental-data">
+                <table class="table table-hover table-striped">
+                  <tr class=param-header>
+                    <th>Time (PST)</th>
+                    <th>Temperature (&degC)</th>
+                    <th>Pressure (mbar)</th>
+                    <th>Humidity (%RH)</th>
+                  </tr>
+                  <tr class=env-param-row>
+                  </tr>
+                  <tr class=env-param-row>
+                  </tr>
+                  <tr class=env-param-row>
+                  </tr>
+                  <tr class=env-param-row>
+                  </tr>
+                </table>
+              </div>
+              <div id="tabs-environmental-chart">
+                <div id="env-chart" style="height: 90%; width: 90%;"></div>
+              </div>
+              <div id="tabs-inertial-data">
+                <table class="table table-hover table-striped">
+                  <tr class=param-header>
+                    <th>Time (PST)</th>
+                    <th>Accel X</th>
+                    <th>Accel Y</th>
+                    <th>Accel Z</th>
+                    <th>Pitch</th>
+                    <th>Roll</th>
+                    <th>Yaw</th>
+                    <th>Compass</th>
+                  </tr>
+                  <tr class=imu-param-row>
+                  </tr>
+                  <tr class=imu-param-row>
+                  </tr>
+                  <tr class=imu-param-row>
+                  </tr>
+                  <tr class=imu-param-row>
+                  </tr>
+                </table>
+              </div>
+              <div id="tabs-inertial-chart">
+                <div id="accel-chart" style="height: 90%; width: 90%;"></div>
+              </div>
+              <div id="tabs-joystick-data"></div>
+              <div id="tabs-led-display"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- </div>
+    </div> -->
+  </div>
+
+  <script type="text/javascript">
+    var iotSource = new EventSource("{{ url_for('myData') }}");
+    // intercept the incoming states from SSE
+  </script>
+</body>
+
+</html>
