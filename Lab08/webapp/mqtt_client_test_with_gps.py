@@ -2,9 +2,18 @@
 import time
 import socket
 import paho.mqtt.client as paho
-from sense import PiSenseHat
+from sense_with_gps import PiSenseHat
+
+#for GPS measurements
+from gpsreadlib import read_serial_gps
 
 # add the GPS MEASUREMENTS of lat,lon,altitude,# of satellites in view to the payload 
+# globals to hold data for GPS 
+lat = 0 
+lon = 0
+alt = 0
+numsats = 0 
+speed = 0 
 
 #myHostname = 'iot8e3c'
 
@@ -61,31 +70,27 @@ pi_sense.clear_display()
 
 # loop
 print('Getting Sensor Data')
-for i in range(1,9):
-    print("SensorSet[%d]" % (i))
-    displayLine(i-1)
-    sensors = pi_sense.getAllSensors()
+
+for num in range (10):
+    (lat,lon,alt,numsats,speed) = read_serial_gps(15)        # read 15 sentences (5 seconds at 3 sentences per second)
+    sensors = pi_sense.getAllSensors()                       # get the sensor readings on PiSenseHat board
 
     sensors['host'] = hostname
 
-    # add the GPS Sensor Measurements here ...
-    lat = 0
-    lon = 0
-    alt = 0 
-    numsats = 0 
-
-    sensors['location']['lat'] = { 'value':lat, 'dir':'N'}
-    sensors['location']['lon'] = { 'value':lon, 'dir':'E'}
+    # add these addtional sensor values from the GPS
+    sensors['location']['lat'] = { 'value':lat }
+    sensors['location']['lon'] = { 'value':lon }
     sensors['location']['alt'] = { 'value':alt, 'unit':'feet'}
     sensors['location']['sats'] = { 'value':numsats}
+    sensors['location']['speed'] = { 'value':speed}
     # end add for GPS
 
     msg['payload'] = str(sensors)
-    print("msg["+str(i)+"]:"+msg['payload'])
+    print("msg[]:"+msg['payload'])
 
-#   publish(topic, payload=None, qos=0, retain=False)
+    #   publish(topic, payload=None, qos=0, retain=False)
     mqttc.publish('iot/sensor', msg['payload'], 1)
-    time.sleep(2.0)
+    #time.sleep(2.0)
 
 pi_sense.clear_display()
 print('End of MQTT Messages')

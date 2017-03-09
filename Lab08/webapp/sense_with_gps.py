@@ -86,10 +86,11 @@ class PiSenseHat(object):
         orientation = self.sense.get_orientation_degrees()
         sensors['inertial']['orientation'] = { 'compass':self.sense.get_compass(), 'pitch':orientation['pitch'], 'roll':orientation['roll'], 'yaw': orientation['yaw'], 'unit':'degrees'}
         
-        sensors['location']['lat'] = { 'value':0, 'dir':'N'}
-        sensors['location']['lon'] = { 'value':0, 'dir':'N'}
-        sensors['location']['alt'] = { 'value':0, 'unit':'feet'}
+        sensors['location']['lat'] = { 'value':0 } # initialize these with 0 values to start
+        sensors['location']['lon'] = { 'value':0 }
+        sensors['location']['alt'] = { 'value':0 }
         sensors['location']['sats'] = { 'value':0}
+        sensors['location']['speed'] = { 'value':0}
 
         return sensors
 # =============================================================================
