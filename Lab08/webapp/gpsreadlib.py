@@ -15,8 +15,9 @@ def read_serial_gps (numsentences):
     lon = 0
     alt = 0
     numsats = 0 
-    speed = 0 
-
+    speed = 0
+    serial_data_line = ""
+    
     with serial.Serial('/dev/ttyS0', baudrate=9600, timeout=1) as ser:
     #with serial.Serial('/dev/ttyAMA0', baudrate=9600, timeout=1) as ser:
         # read 10 lines or WHILE loop to read data from the /dev/ttyS0 GPS on the UART

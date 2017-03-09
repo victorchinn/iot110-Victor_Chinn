@@ -71,8 +71,15 @@ pi_sense.clear_display()
 # loop
 print('Getting Sensor Data')
 
-for num in range (10):
-    (lat,lon,alt,numsats,speed) = read_serial_gps(15)        # read 15 sentences (5 seconds at 3 sentences per second)
+while(1):
+    
+    try:
+        (lat,lon,alt,numsats,speed) = read_serial_gps(15)        # read 15 sentences (5 seconds at 3 sentences per second)
+    except Exception as e:
+        #print "Error decoding :"
+        #catch the exception but ignore it if cant decode it
+        pass
+    
     sensors = pi_sense.getAllSensors()                       # get the sensor readings on PiSenseHat board
 
     sensors['host'] = hostname
@@ -90,7 +97,7 @@ for num in range (10):
 
     #   publish(topic, payload=None, qos=0, retain=False)
     mqttc.publish('iot/sensor', msg['payload'], 1)
-    #time.sleep(2.0)
+    time.sleep(2.0)
 
 pi_sense.clear_display()
 print('End of MQTT Messages')
