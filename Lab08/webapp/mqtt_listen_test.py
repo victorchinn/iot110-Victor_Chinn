@@ -36,6 +36,7 @@ print('Establish MQTT Broker Connection')
 mqttc = paho.Client()
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
+mqttc.username_pw_set(localUser, localPass) ## added as bug fix because of timeouts
 mqttc.connect(localBroker, localPort, localTimeOut)
 print('MQTT Listener Loop <ctl-C> to break...')
 mqttc.loop_forever()
